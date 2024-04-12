@@ -1,80 +1,30 @@
+
 {
-  "name": "NucleiSegmentation-CellProfiler",
-  "description": "Workflow for nuclei segmentation in CellProfiler",
-  "container-image": {
-    "image": "neubiaswg5/w_nucleisegmentation-cellprofiler",
-    "type": "singularity"
-  },
-  "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE NUCLEI_DIAMETER_RANGE SIZE_SMOOTHING_FILTER",
+  "name": "BIOM3D Training Workflow",
+  "version": "1.0",
+  "container": "my-biom3d-app",
+  "command": "python -m biom3d.preprocess_train --img_dir {img_dir} --msk_dir {msk_dir} --num_classes {num_classes} --desc '{desc}'",
   "inputs": [
     {
-      "id": "cytomine_host",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "BIAFLOWS host",
-      "set-by-server": true,
-      "optional": false,
-      "type": "String"
+      "id": "img_dir",
+      "type": "Directory",
+      "description": "Directory containing images"
     },
     {
-      "id": "cytomine_public_key",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "BIAFLOWS public key",
-      "set-by-server": true,
-      "optional": false,
-      "type": "String"
+      "id": "msk_dir",
+      "type": "Directory",
+      "description": "Directory containing masks"
     },
     {
-      "id": "cytomine_private_key",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "BIAFLOWS private key",
-      "set-by-server": true,
-      "optional": false,
-      "type": "String"
+      "id": "num_classes",
+      "type": "Integer",
+      "description": "Number of classes"
     },
     {
-      "id": "cytomine_id_project",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "BIAFLOWS project ID",
-      "set-by-server": true,
-      "optional": false,
-      "type": "Number"
-    },
-    {
-      "id": "cytomine_id_software",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "BIAFLOWS software ID",
-      "set-by-server": true,
-      "optional": false,
-      "type": "Number"
-    },
-    {
-      "id": "nuclei_diameter_range",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "Typical diameter of objects, in pixel units (Min,Max)",
-      "description": "Typical diameter of objects, in pixel units (Min,Max)",
-      "default-value": "15,4000",
-      "set-by-server": false,
-      "optional": true,
-      "type": "String"
-    },
-    {
-      "id": "size_smoothing_filter",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "Size of smoothing filter",
-      "description": "Size of smoothing filter",
-      "default-value": 5,
-      "set-by-server": false,
-      "optional": true,
-      "type": "Number"
+      "id": "desc",
+      "type": "String",
+      "description": "Description of the dataset"
     }
   ],
 
-  "schema-version": "cytomine-0.1"
 }
