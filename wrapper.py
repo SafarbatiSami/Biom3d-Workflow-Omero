@@ -1,41 +1,46 @@
 import sys
 import os
+import shutil
+import subprocess
 from subprocess import call
+from cytomine.models import Job
+from biaflows import CLASS_OBJSEG, CLASS_SPTCNT, CLASS_PIXCLA, CLASS_TRETRC, CLASS_LOOTRC, CLASS_OBJDET, CLASS_PRTTRK, CLASS_OBJTRK
+from biaflows.helpers import BiaflowsJob, prepare_data, upload_data, upload_metrics, get_discipline
+import time
+import shutil
 # Assuming biom3d has relevant classes/functions you need to import
-from biom3d import preprocess_train, other_necessary_functions
 
-def prepare_data():
-    # Assuming these environment variables are set correctly
-    img_dir = os.getenv("IMG_DIR")
-    msk_dir = os.getenv("MSK_DIR")
-    num_classes = int(os.getenv("NUM_CLASSES"))
-    description = os.getenv("DESCRIPTION")
-    return img_dir, msk_dir, num_classes, description
-    
-def run_biom3d_workflow(img_dir, msk_dir, num_classes, description):
-    # Construct the command to run biom3d
-    command = [
-        "python", "-m", "biom3d.preprocess_train",
-        "--img_dir", img_dir,
-        "--msk_dir", msk_dir,
-        "--num_classes", str(num_classes),
-        "--desc", description
-    ]
-    return_code = call(command, shell=True)
-    if return_code != 0:
-        raise ValueError(f"Failed to execute biom3d with return code: {return_code}")
 
 def main(argv):
-    try:
-        # Get data paths and parameters from environment variables
-        img_dir, msk_dir, num_classes, description = prepare_data()
+    
+    with BiaflowsJob.from_cli(argv) as bj:
+        
+        bj.job.update(status=Job.RUNNING, progress=0, statusComment="Initialisation...")
+        # Assuming these environment variables are set correctly
+        img_dir = bj.parameters.img_dir
+        msk_dir = bj.parameters.msk_dir
+        num_classes = bj.parameters.num_classes
+        description = bj.parameters.desc
+        
+ 
+        # Construct the command to run biom3d
+        cmd = [
+            "python", "-m", "biom3d.preprocess_train",
+            "--img_dir", img_dir,
+            "--msk_dir", msk_dir,
+            "--num_classes", str(num_classes),
+            "--desc", description
+        ]
 
-        # Run the biom3d training process
-        run_biom3d_workflow(img_dir, msk_dir, num_classes, description)
 
-        print("Workflow completed successfully.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        status = subprocess.run(cmd)
+
+        if status.returncode != 0:
+            print("Running Cellpose failed, terminate")
+            sys.exit(1)
+                # 5. Pipeline finished
+
+        bj.job.update(progress=100, status=Job.TERMINATED, status_comment="Finished.")
 
 if __name__ == "__main__":
     main(sys.argv[1:])
