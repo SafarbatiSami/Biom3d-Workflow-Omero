@@ -23,9 +23,9 @@ RUN git clone https://github.com/Neubias-WG5/biaflows-utilities.git && \
     cd biaflows-utilities/ && git checkout tags/v0.9.2 && pip install . --no-deps
 
 # install utilities binaries
-RUN chmod +x /biaflows-utilities/bin/*
-RUN cp /biaflows-utilities/bin/* /usr/bin/ && \
-    rm -r /biaflows-utilities
+RUN chmod +x biaflows-utilities/bin/*
+RUN cp biaflows-utilities/bin/* usr/bin/ && \
+    rm -r biaflows-utilities/
 
 # ------------------------------------------------------------------------------
 
