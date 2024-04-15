@@ -15,7 +15,7 @@ RUN apt-get update && \
 RUN git clone https://github.com/cytomine-uliege/Cytomine-python-client.git && \
     cd Cytomine-python-client/ && git checkout tags/v2.7.3 && pip install . && \
     rm -rf /Cytomine-python-client
-
+RUN pip install --use-pep517
 # ------------------------------------------------------------------------------
 # Install BIAFLOWS utilities (annotation exporter, compute metrics, helpers,...)
 RUN apt-get update && apt-get install libgeos-dev -y && apt-get clean
