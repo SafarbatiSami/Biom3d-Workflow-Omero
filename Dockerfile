@@ -24,7 +24,7 @@ RUN git clone https://github.com/Neubias-WG5/biaflows-utilities.git && \
 
 # install utilities binaries
 RUN chmod +x biaflows-utilities/bin/*
-RUN cp biaflows-utilities/bin/* usr/bin/ && \
+RUN cp biaflows-utilities/bin/* /usr/bin/ && \
     rm -r biaflows-utilities/
 
 # ------------------------------------------------------------------------------
