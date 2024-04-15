@@ -4,7 +4,8 @@ FROM pytorch/pytorch:latest
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && apt-get install -y \
     build-essential \
-    python3-pip
+    python3-pip \
+    git && 
 
 
 # ------------------------------------------------------------------------------
