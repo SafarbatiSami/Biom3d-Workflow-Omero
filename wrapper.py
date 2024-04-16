@@ -14,8 +14,13 @@ import shutil
 def main(argv):
     
     with BiaflowsJob.from_cli(argv) as bj:
-        
-        bj.job.update(status=Job.RUNNING, progress=0, statusComment="Initialisation...")
+        # Change following to the actual problem class of the workflow
+        problem_cls = get_discipline(bj, default=CLASS_OBJSEG)
+        # 1. Prepare data for workflow
+        in_imgs, gt_imgs, in_path, gt_path, out_path, tmp_path = prepare_data(problem_cls, bj, is_2d=False, **bj.flags)
+
+        # 2. Run image analysis workflow
+        bj.job.update(progress=25, statusComment="Launching workflow...")
         # Assuming these environment variables are set correctly
         img_dir = bj.parameters.img_dir
         msk_dir = bj.parameters.msk_dir
@@ -26,7 +31,7 @@ def main(argv):
         # Construct the command to run biom3d
         cmd = [
             "python", "-m", "biom3d.preprocess_train",
-            "--img_dir", img_dir,
+            "--img_dir", in_path,
             "--msk_dir", msk_dir,
             "--num_classes", str(num_classes),
             "--desc", description
