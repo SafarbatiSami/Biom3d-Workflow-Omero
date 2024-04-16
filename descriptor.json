@@ -3,7 +3,7 @@
   "name": "Biom3d-Workflow-Omero",
   "description": "3D segmentation using Biom3d",
   "container-image": {
-    "image": "safarbatisami/w_biom3d-workflow-omero",
+    "image": "samisafarbati/w_biom3d-workflow-omero",
     "type": "singularity"
   },
   "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE IMG_DIR MSK_DIR NUM_CLASSES DESC",
