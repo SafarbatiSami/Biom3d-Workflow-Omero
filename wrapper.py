@@ -29,7 +29,7 @@ def main(argv):
         # Construct the command to run biom3d
         cmd = [
             "python", "-m", "biom3d.preprocess_train",
-            "--img_dir", tmp_path,
+            "--img_dir", in_path,
             "--msk_dir", gt_path,
             "--num_classes", "{:d}".format(num_classes),
             "--desc", description
