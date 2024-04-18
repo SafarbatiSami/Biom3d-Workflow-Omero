@@ -22,8 +22,6 @@ def main(argv):
         # 2. Run image analysis workflow
         bj.job.update(progress=25, statusComment="Launching workflow...")
         # Assuming these environment variables are set correctly
-        img_dir = bj.parameters.img_dir
-        msk_dir = bj.parameters.msk_dir
         num_classes = bj.parameters.num_classes
         description = bj.parameters.desc
         
@@ -31,9 +29,9 @@ def main(argv):
         # Construct the command to run biom3d
         cmd = [
             "python", "-m", "biom3d.preprocess_train",
-            "--img_dir", in_path,
-            "--msk_dir", msk_dir,
-            "--num_classes", str(num_classes),
+            "--img_dir", tmp_path,
+            "--msk_dir", gt_path,
+            "--num_classes", "{:d}".format(num_classes),
             "--desc", description
         ]
 
@@ -41,7 +39,7 @@ def main(argv):
         status = subprocess.run(cmd)
 
         if status.returncode != 0:
-            print("Running Cellpose failed, terminate")
+            print("Running Biom3d failed, terminate")
             sys.exit(1)
                 # 5. Pipeline finished
 

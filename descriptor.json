@@ -6,7 +6,7 @@
     "image": "samisafarbati/w_biom3d-workflow-omero",
     "type": "singularity"
   },
-  "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE IMG_DIR MSK_DIR NUM_CLASSES DESC",
+  "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE  NUM_CLASSES DESC",
   "inputs": [
     {
       "id": "cytomine_host",
@@ -54,28 +54,10 @@
       "type": "Number"
     },
     {
-      "id": "img_dir",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "Image Directory",
-      "set-by-server": false,
-      "optional": false,
-      "type": "String"
-    },
-    {
-      "id": "msk_dir",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "Mask Directory",
-      "set-by-server": false,
-      "optional": false,
-      "type": "String"
-    },
-    {
       "id": "num_classes",
       "value-key": "@ID",
       "command-line-flag": "--@id",
-      "name": "ImagNumber of classes ",
+      "name": "Number of classes ",
       "set-by-server": false,
       "optional": false,
       "type": "Number"
