@@ -1,24 +1,15 @@
 # Image de base officielle de PyTorch
+FROM pytorch/pytorch:latest
 
-FROM python:3.7-bullseye
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
+    python3-pip \
     git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-
-# Install PyTorch
-RUN pip install torch torchvision torchaudio
-
-
-# ------------------------------------------------------------------------------
-# Install Cytomine python client
-RUN git clone https://github.com/cytomine-uliege/Cytomine-python-client.git && \
-    cd Cytomine-python-client/ && git checkout tags/v2.7.3 && pip install . && \
-    rm -rf /Cytomine-python-client
 
 # ------------------------------------------------------------------------------
 # Install BIAFLOWS utilities (annotation exporter, compute metrics, helpers,...)
@@ -40,4 +31,4 @@ RUN pip install biom3d
 ADD wrapper.py /app/wrapper.py
 ADD descriptor.json /app/descriptor.json
 
-ENTRYPOINT ["python3.7","/app/wrapper.py"]
+ENTRYPOINT ["python","/app/wrapper.py"]
