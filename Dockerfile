@@ -1,29 +1,11 @@
 # Image de base officielle de PyTorch
 FROM pytorch/pytorch:latest
 
-# Install Python 3.7 alongside PyTorch
-RUN apt-get update && \
-    apt-get install -y \
-    python3.7 \
-    python3.7-dev \
-    python3.7-distutils \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Update pip for Python 3.7
-RUN python3.7 -m ensurepip && \
-    python3.7 -m pip install --no-cache --upgrade pip setuptools wheel
-
-# Set Python 3.7 as the default Python version
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
-
-# Set the working directory
-WORKDIR /app
-
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && \
     apt-get install -y \
     build-essential \
+    python3-pip \
     git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -54,4 +36,4 @@ RUN pip install biom3d
 ADD wrapper.py /app/wrapper.py
 ADD descriptor.json /app/descriptor.json
 
-ENTRYPOINT ["python3.7","/app/wrapper.py"]
+ENTRYPOINT ["python","/app/wrapper.py"]
