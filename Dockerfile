@@ -1,5 +1,5 @@
 # Image de base officielle de PyTorch
-FROM python:3.7-bullseye
+FROM pytorch/pytorch:latest
 
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && \
@@ -9,6 +9,7 @@ RUN apt-get update && \
     git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+RUN apt install python3.7
 
 
 # ------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ RUN cp biaflows-utilities/bin/* /usr/bin/ && \
     rm -r biaflows-utilities/
 
 # ------------------------------------------------------------------------------
-RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
 # Installation de biom3d 
 RUN pip install biom3d
 
