@@ -8,7 +8,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install PyTorch and PyTorch CUDA
-RUN conda install pytorch pytorch-cuda=11.8 -c pytorch -c nvidia
+RUN pip install torch==1.9.1+cu118 torchvision==0.10.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
 
 # ------------------------------------------------------------------------------
 # Install Cytomine python client
