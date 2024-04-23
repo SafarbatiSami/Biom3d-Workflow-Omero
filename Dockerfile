@@ -1,14 +1,14 @@
-# Use the Python 3.7 image as the base
-FROM python:3.7-bullseye
+# Image de base officielle de PyTorch
+FROM pytorch/pytorch:latest
 
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && \
-    apt-get install -y python3-pip git && \
+    apt-get install -y \
+    build-essential \
+    python3-pip \
+    git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Install PyTorch and PyTorch CUDA
-RUN pip install torch==1.9.1+cu118 torchvision==0.10.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
 
 # ------------------------------------------------------------------------------
 # Install Cytomine python client
@@ -18,7 +18,7 @@ RUN git clone https://github.com/cytomine-uliege/Cytomine-python-client.git && \
 
 # ------------------------------------------------------------------------------
 # Install BIAFLOWS utilities (annotation exporter, compute metrics, helpers,...)
-RUN apt-get update && apt-get install -y libgeos-dev && apt-get clean
+RUN apt-get update && apt-get install libgeos-dev -y && apt-get clean
 RUN git clone https://github.com/Neubias-WG5/biaflows-utilities.git && \
     cd biaflows-utilities/ && git checkout tags/v0.9.2 && pip install . --no-deps
 
@@ -36,4 +36,4 @@ RUN pip install biom3d
 ADD wrapper.py /app/wrapper.py
 ADD descriptor.json /app/descriptor.json
 
-ENTRYPOINT ["python3.7","/app/wrapper.py"]
+ENTRYPOINT ["python3","/app/wrapper.py"]
