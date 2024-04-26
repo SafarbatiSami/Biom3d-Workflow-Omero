@@ -3,7 +3,7 @@ import sys
 import subprocess
 from subprocess import call
 
-from biaflows import CLASS_OBJSEG, CLASS_SPTCNT, CLASS_PIXCLA, CLASS_TRETRC, CLASS_LOOTRC, CLASS_OBJDET, CLASS_PRTTRK, CLASS_OBJTRK
+
 from biaflows.helpers import BiaflowsJob
 
 # Assuming biom3d has relevant classes/functions you need to import
@@ -23,11 +23,13 @@ def main(argv):
  
         # Construct the command to run biom3d
         cmd = [
-            "python", "-m", "biom3d.preprocess_train",
+            "source", "b3d/bin/activate",
+            "&&", "python", "-m", "biom3d.preprocess_train",
             "--img_dir", img_dir,
             "--msk_dir", img_dir,
             "--num_classes", str(num_classes),
-            "--desc", description
+            "--desc", description,
+            "&&", "deactivate"
         ]
 
 
