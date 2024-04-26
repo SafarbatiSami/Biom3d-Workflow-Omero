@@ -9,8 +9,6 @@ RUN apt-get update && \
     git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN apt install python3.7
-
 
 # ------------------------------------------------------------------------------
 # Install Cytomine python client
@@ -38,4 +36,4 @@ RUN pip install biom3d
 ADD wrapper.py /app/wrapper.py
 ADD descriptor.json /app/descriptor.json
 
-ENTRYPOINT ["python3.7","/app/wrapper.py"]
+ENTRYPOINT ["python3","/app/wrapper.py"]
