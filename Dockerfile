@@ -1,5 +1,4 @@
-# Image de base officielle de PyTorch
-FROM pytorch/pytorch:latest
+FROM python:3.7-bullseye
 
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && \
@@ -20,7 +19,7 @@ RUN git clone https://github.com/cytomine-uliege/Cytomine-python-client.git && \
 # Install BIAFLOWS utilities (annotation exporter, compute metrics, helpers,...)
 RUN apt-get update && apt-get install libgeos-dev -y && apt-get clean
 RUN git clone https://github.com/Neubias-WG5/biaflows-utilities.git && \
-    cd biaflows-utilities/ && git checkout tags/v0.9.2 && pip install . --no-deps
+    cd biaflows-utilities/ && git checkout tags/v0.9.2 && pip install . 
 
 # install utilities binaries
 RUN chmod +x biaflows-utilities/bin/*
@@ -28,12 +27,33 @@ RUN cp biaflows-utilities/bin/* /usr/bin/ && \
     rm -r biaflows-utilities/
 
 # ------------------------------------------------------------------------------
-
 # Installation de biom3d 
-RUN pip install biom3d
+
+#Install python 3.10
+RUN apt-get install libssl-dev openssl -y  && \
+    wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz  && \
+    tar xzvf Python-3.10.0.tgz  && \ 
+    cd Python-3.10.0  && \ 
+    ./configure  && \
+    make  && \ 
+    make install 
+
+
+RUN  ln -fs /opt/Python-3.10.0/Python /usr/bin/python3.10
+# Create a virtual environment named "b3d"
+RUN pip install virtualenv
+RUN virtualenv b3d --python=python3.10
+# Activate the "b3d" virtual environment and install biom3d
+RUN . b3d/bin/activate && \
+    git clone https://github.com/GuillaumeMougeot/biom3d.git && \
+    cd biom3d && \
+    pip install -e . && \
+    deactivate
+
 
 # Ajout des fichiers de l'application
 ADD wrapper.py /app/wrapper.py
 ADD descriptor.json /app/descriptor.json
 
-ENTRYPOINT ["python3","/app/wrapper.py"]
+ENTRYPOINT ["python3.7","/app/wrapper.py"]
+
