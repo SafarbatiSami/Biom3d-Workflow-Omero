@@ -24,7 +24,7 @@ def main(argv):
         # Construct the command to run biom3d
         cmd = [
             "source", "b3d/bin/activate",
-            "&&", "python", "-m", "biom3d.preprocess_train",
+            "&&", "python", "-m", "biom3d.preprocess",
             "--img_dir", img_dir,
             "--msk_dir", img_dir,
             "--num_classes", str(num_classes),
